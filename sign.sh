@@ -45,6 +45,7 @@ confirmation_check
 
 # GENERATING KEYS
 echo -e "\n${fmt_bold}${fmt_purple}IMPORTANT NOTICE!:${fmt_normal} leave all password input fields empty;\n                   otherwise, signing will fail.\n"
+sleep 4
 mkdir -pv ~/.android-certs
 for cert in bluetooth media networkstack nfc platform releasekey sdk_sandbox shared testcert testkey verity verifiedboot; do \
     ./development/tools/make_key ~/.android-certs/$cert "$subject"; \
