@@ -26,6 +26,7 @@ if [[ $script_temp != "" && $script_temp != "y" && $script_temp != "Y" && $scrip
 fi
 
 # INFO COLLECTING
+echo -e ""
 read -p "$(echo -e ${fmt_purple})Country Name (2 letter code)           $(echo -e ${fmt_normal})example 'US': "                       var_C
 read -p "$(echo -e ${fmt_purple})State or Province Name (full name)     $(echo -e ${fmt_normal})example 'California' or 'Germany': "  var_ST
 read -p "$(echo -e ${fmt_purple})Locality Name (eg, city)               $(echo -e ${fmt_normal})example 'San Francisco' or 'Tokyo': " var_L
