@@ -12,18 +12,18 @@ fmt_normal="\033[0m"
 fmt_bold="\033[1m"
 
 # ADDITIONAL FUCTIONS
-script_exit()
+confirmation_check()
 {
-    echo -e "\nUser hasn't confirmed the data. ${fmt_purple}Exiting...${fmt_normal}"
-    exit
+    if [[ $script_temp != "" && $script_temp != "y" && $script_temp != "Y" && $script_temp != "yes" ]]; then
+        echo -e "\nUser hasn't confirmed the data. ${fmt_purple}Exiting...${fmt_normal}"
+        exit
+    fi
 }
 
 # DIRECTORY CONFIRMATION
 echo -e "Is\n${fmt_bold}${fmt_purple}$(pwd)${fmt_normal}"
 read -p "right directory with ROM sources? (Y/n): " script_temp
-if [[ $script_temp != "" && $script_temp != "y" && $script_temp != "Y" && $script_temp != "yes" ]]; then
-    script_exit
-fi
+confirmation_check
 
 # INFO COLLECTING
 echo -e ""
@@ -41,9 +41,7 @@ subject="/C=${var_C}/ST=${var_ST}/L=${var_L}/O=${var_O}/OU=${var_OU}/CN=${var_CN
 # INFO CONFIRMATION
 echo -e "\nIs given info correct:\n${fmt_bold}${fmt_purple}${subject}${fmt_normal} ?"
 read -p "Y/n: " script_temp
-if [[ $script_temp != "" && $script_temp != "y" && $script_temp != "Y" && $script_temp != "yes" ]]; then
-    script_exit
-fi
+confirmation_check
 
 # GENERATING KEYS
 echo -e "${fmt_bold}${fmt_purple}IMPORTANT NOTICE!:${fmt_normal} leave all password input fields empty;\n                   otherwise, signing will fail."
