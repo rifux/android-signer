@@ -52,7 +52,7 @@ done
 
 # SETTING UP PRIVATE VENDOR REPO
 mkdir -pv vendor/lineage-priv
-cp -v ~/.android-certs vendor/lineage-priv/keys
+cp -rv ~/.android-certs vendor/lineage-priv/keys
 echo "PRODUCT_DEFAULT_DEV_CERTIFICATE := vendor/lineage-priv/keys/releasekey" > vendor/lineage-priv/keys/keys.mk
 cat <<EOF > vendor/lineage-priv/keys/BUILD.bazel
 filegroup(
