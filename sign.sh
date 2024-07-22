@@ -67,4 +67,4 @@ filegroup(
 EOF
 
 # SIGNING
-echo -e "\n${fmt_purple}NOTICE:${fmt_normal} now generated keys stored at '$(pwd)/vendor/lineage-priv';\n        make sure 'vendor/lineage-priv/keys/keys.mk' is included somewhere in sources;\n        otherwise, iclude it or add '-include vendor/lineage-priv/keys/keys.mk' to your device mk file."
+echo -e "\n${fmt_purple}NOTICE:${fmt_normal} now generated keys stored at '$(pwd)/vendor/lineage-priv';\n        make sure 'vendor/lineage-priv/keys/keys.mk' is included somewhere in sources;\n        otherwise, include it or add '-include vendor/lineage-priv/keys/keys.mk' to your device mk file."
