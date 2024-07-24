@@ -6,6 +6,10 @@
 # SPDX-License-Identifier: MIT
 #
 
+# DEFAULT VALUES
+script_dir_output="vendor/lineage-priv"
+script_dir_backup="${HOME}/.android-signer-keys"
+
 # FORMATTING
 fmt_purple="\033[35m"
 fmt_normal="\033[0m"
@@ -46,16 +50,36 @@ confirmation_check
 # GENERATING KEYS
 echo -e "\n${fmt_bold}${fmt_purple}IMPORTANT NOTICE!:${fmt_normal} leave all password input fields empty;\n                   otherwise, signing will fail.\n"
 sleep 4
-mkdir -pv ~/.android-certs
+mkdir -pv ${script_dir_backup}
 for cert in bluetooth media networkstack nfc platform releasekey sdk_sandbox shared testcert cyngn-priv-app otakey testkey verity verifiedboot; do \
-    ./development/tools/make_key ~/.android-certs/$cert "$subject"; \
+    ./development/tools/make_key ${script_dir_backup}/$cert "$subject"; \
 done
 
+# ASKING FOR OUTPUT DIR
+echo -e "\nIs ${fmt_bold}${fmt_purple}${script_dir_output}${fmt_normal} right signing keys directory?"
+read -p "Y/n: " script_temp
+if [[ $script_temp != "" && $script_temp != "y" && $script_temp != "Y" && $script_temp != "yes" ]]; then
+    echo -e ""
+    while true; do
+        read -p "Enter output directory: " script_dir_output
+        if [ -d "$script_dir_output" ]; then
+            break
+        else
+            read -p "This directory does not exist. Do you want to create it? (Y/n): " script_temp
+            if [[ $script_temp != "" && $script_temp != "y" && $script_temp != "Y" && $script_temp != "yes" ]]; then
+                continue
+            fi
+            break
+        fi
+    done
+fi
+
+
 # SETTING UP PRIVATE VENDOR REPO
-mkdir -pv vendor/lineage-priv
-cp -rv ~/.android-certs vendor/lineage-priv/keys
-echo "PRODUCT_DEFAULT_DEV_CERTIFICATE := vendor/lineage-priv/keys/releasekey" > vendor/lineage-priv/keys/keys.mk
-cat <<EOF > vendor/lineage-priv/keys/BUILD.bazel
+mkdir -pv ${script_dir_output}/keys
+cp -rv ${script_dir_backup}/* ${script_dir_output}/keys
+echo "PRODUCT_DEFAULT_DEV_CERTIFICATE := ${script_dir_output}/keys/releasekey" > ${script_dir_output}/keys/keys.mk
+cat <<EOF > ${script_dir_output}/keys/BUILD.bazel
 filegroup(
     name = "android_certificate_directory",
     srcs = glob([
@@ -67,4 +91,4 @@ filegroup(
 EOF
 
 # SIGNING
-echo -e "\n${fmt_purple}NOTICE:${fmt_normal} now generated keys stored at '$(pwd)/vendor/lineage-priv';\n        make sure 'vendor/lineage-priv/keys/keys.mk' is included somewhere in sources;\n        otherwise, include it or add '-include vendor/lineage-priv/keys/keys.mk' to your device mk file."
+echo -e "\n${fmt_purple}NOTICE:${fmt_normal} now generated keys stored at '$(pwd)/${script_dir_output}';\n        make sure '${script_dir_output}/keys/keys.mk' is included somewhere in sources;\n        otherwise, include it or add '-include ${script_dir_output}/keys/keys.mk' to your device mk file."
