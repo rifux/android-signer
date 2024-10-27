@@ -26,25 +26,25 @@ confirmation_check()
 
 # DIRECTORY CONFIRMATION
 echo -e "Is\n${fmt_bold}${fmt_purple}$(pwd)${fmt_normal}"
-read -p "right directory with ROM sources? (Y/n): " script_temp
+read -e -p "right directory with ROM sources? (Y/n): " script_temp
 confirmation_check
 
 # INFO COLLECTING
 echo -e ""
-read -p "$(echo -e ${fmt_purple})Country Name (2 letter code)           $(echo -e ${fmt_normal})example 'US': "                       var_C
-read -p "$(echo -e ${fmt_purple})State or Province Name (full name)     $(echo -e ${fmt_normal})example 'California' or 'Germany': "  var_ST
-read -p "$(echo -e ${fmt_purple})Locality Name (eg, city)               $(echo -e ${fmt_normal})example 'San Francisco' or 'Tokyo': " var_L
-read -p "$(echo -e ${fmt_purple})Organization Name (eg, company)        $(echo -e ${fmt_normal})example 'Example Inc.': "             var_O
-read -p "$(echo -e ${fmt_purple})Organizational Unit Name (eg, section) $(echo -e ${fmt_normal})example 'IT Department': "            var_OU
-read -p "$(echo -e ${fmt_purple})Common Name                            $(echo -e ${fmt_normal})example 'example.com': "              var_CN
-read -p "$(echo -e ${fmt_purple})Email Address                          $(echo -e ${fmt_normal})example 'contact@example.com': "      var_emailAddress
+read -e -p "$(echo -e ${fmt_purple})Country Name (2 letter code)           $(echo -e ${fmt_normal})example 'US': "                       var_C
+read -e -p "$(echo -e ${fmt_purple})State or Province Name (full name)     $(echo -e ${fmt_normal})example 'California' or 'Germany': "  var_ST
+read -e -p "$(echo -e ${fmt_purple})Locality Name (eg, city)               $(echo -e ${fmt_normal})example 'San Francisco' or 'Tokyo': " var_L
+read -e -p "$(echo -e ${fmt_purple})Organization Name (eg, company)        $(echo -e ${fmt_normal})example 'Example Inc.': "             var_O
+read -e -p "$(echo -e ${fmt_purple})Organizational Unit Name (eg, section) $(echo -e ${fmt_normal})example 'IT Department': "            var_OU
+read -e -p "$(echo -e ${fmt_purple})Common Name                            $(echo -e ${fmt_normal})example 'example.com': "              var_CN
+read -e -p "$(echo -e ${fmt_purple})Email Address                          $(echo -e ${fmt_normal})example 'contact@example.com': "      var_emailAddress
 
 # ASSEMBLING GIVEN INFO
 subject="/C=${var_C}/ST=${var_ST}/L=${var_L}/O=${var_O}/OU=${var_OU}/CN=${var_CN}/emailAddress=${var_emailAddress}"
 
 # INFO CONFIRMATION
 echo -e "\nIs given info correct:\n${fmt_bold}${fmt_purple}${subject}${fmt_normal} ?"
-read -p "Y/n: " script_temp
+read -e -p "Y/n: " script_temp
 confirmation_check
 
 # GENERATING KEYS
@@ -57,15 +57,15 @@ done
 
 # ASKING FOR OUTPUT DIR
 echo -e "\nIs ${fmt_bold}${fmt_purple}${script_dir_output}${fmt_normal} right signing keys directory?"
-read -p "Y/n: " script_temp
+read -e -p "Y/n: " script_temp
 if [[ $script_temp != "" && $script_temp != "y" && $script_temp != "Y" && $script_temp != "yes" ]]; then
     echo -e ""
     while true; do
-        read -p "Enter output directory: " script_dir_output
+        read -e -p "Enter output directory: " script_dir_output
         if [ -d "$script_dir_output" ]; then
             break
         else
-            read -p "This directory does not exist. Do you want to create it? (Y/n): " script_temp
+            read -e -p "This directory does not exist. Do you want to create it? (Y/n): " script_temp
             if [[ $script_temp != "" && $script_temp != "y" && $script_temp != "Y" && $script_temp != "yes" ]]; then
                 continue
             fi
